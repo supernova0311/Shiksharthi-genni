@@ -33,12 +33,13 @@ function SideBar() {
     <div className="h-screen shadow-md p-5">
       <div className="flex gap-2 items-center">
         <Image src={"/logo.svg"} alt="logo" width={40} height={40} />
-        <h2 className="font-bold text-2xl">StudyGenie </h2>
+        <h2 className="font-bold text-2xl">Saarthi genie</h2>
       </div>
 
       <div className="mt-10">
         <Link href={"/create"} className="w-full">
           <Button className="w-full">+&nbsp;Create New</Button>
+
         </Link>
         <div className="mt-5">
           {MenuList.map((menu, index) => (
