@@ -23,7 +23,7 @@ function DashboardHeader() {
         <div className="flex items-center space-x-2">
           <Image src={"/logo.svg"} alt="logo" width={40} height={40} />
           <Link href={"/dashboard"}>
-            <span className="text-xl md:text-2xl font-bold">Study Genie</span>
+            <span className="text-xl md:text-2xl font-bold">Saarthi</span>
           </Link>
         </div>
       )}
