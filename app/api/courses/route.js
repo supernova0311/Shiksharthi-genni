@@ -1,16 +1,15 @@
 import { db } from "@/configs/db";
-import { STUDY_MATERIAL_TABLE } from "@/configs/schema";
-import { desc, eq } from "drizzle-orm";
+import { StudyMaterial } from "@/configs/mongoSchema";
 import { NextResponse } from "next/server";
 
 export async function POST(req) {
   const { createdBy } = await req.json();
 
-  const result = await db
-    .select()
-    .from(STUDY_MATERIAL_TABLE)
-    .where(eq(STUDY_MATERIAL_TABLE.createdBy, createdBy))
-    .orderBy(desc(STUDY_MATERIAL_TABLE.id));
+  await db(); // Connect to MongoDB
+  
+  const result = await StudyMaterial.find({ createdBy })
+    .sort({ createdAt: -1 }); // Sort by creation date in descending order
+    
   return NextResponse.json({ result: result });
 }
 
@@ -18,10 +17,10 @@ export async function GET(req) {
   const reqUrl = req.url;
   const { searchParams } = new URL(reqUrl);
   const courseId = searchParams.get("courseId");
-  const course = await db
-    .select()
-    .from(STUDY_MATERIAL_TABLE)
-    .where(eq(STUDY_MATERIAL_TABLE?.courseId, courseId));
+  
+  await db(); // Connect to MongoDB
+  
+  const course = await StudyMaterial.findOne({ courseId });
 
-  return NextResponse.json({ result: course[0] });
+  return NextResponse.json({ result: course });
 }

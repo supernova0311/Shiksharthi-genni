@@ -54,6 +54,7 @@ function StudyMaterialSection({ courseId, course }) {
       <div className="grid grid-cols-2 md:grid-cols-4 gap-5 mt-3">
         {MaterialList.map((item, index) => (
           <MaterialCardItem
+            key={index}
             item={item}
             studyTypeContent={studyTypeContent}
             course={course}

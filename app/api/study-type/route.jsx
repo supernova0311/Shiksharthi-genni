@@ -1,24 +1,18 @@
 import { db } from "@/configs/db";
 import {
-  CHAPTER_NOTES_TABLE,
-  STUDY_TYPE_CONTENT_TABLE,
-} from "@/configs/schema";
-import { and, eq } from "drizzle-orm";
+  ChapterNotes,
+  StudyTypeContent,
+} from "@/configs/mongoSchema";
 import { NextResponse } from "next/server";
 
 export async function POST(req) {
   const { courseId, studyType } = await req.json();
 
-  if (studyType == "ALL") {
-    const notes = await db
-      .select()
-      .from(CHAPTER_NOTES_TABLE)
-      .where(eq(CHAPTER_NOTES_TABLE?.courseId, courseId));
+  await db(); // Connect to MongoDB
 
-    const contentList = await db
-      .select()
-      .from(STUDY_TYPE_CONTENT_TABLE)
-      .where(eq(STUDY_TYPE_CONTENT_TABLE?.courseId, courseId));
+  if (studyType == "ALL") {
+    const notes = await ChapterNotes.find({ courseId });
+    const contentList = await StudyTypeContent.find({ courseId });
 
     const result = {
       notes: notes,
@@ -28,23 +22,14 @@ export async function POST(req) {
     };
     return NextResponse.json(result);
   } else if (studyType == "notes") {
-    const notes = await db
-      .select()
-      .from(CHAPTER_NOTES_TABLE)
-      .where(eq(CHAPTER_NOTES_TABLE?.courseId, courseId));
-
+    const notes = await ChapterNotes.find({ courseId });
     return NextResponse.json({ notes });
   } else {
-    const result = await db
-      .select()
-      .from(STUDY_TYPE_CONTENT_TABLE)
-      .where(
-        and(
-          eq(STUDY_TYPE_CONTENT_TABLE?.courseId, courseId),
-          eq(STUDY_TYPE_CONTENT_TABLE.type, studyType)
-        )
-      );
+    const result = await StudyTypeContent.findOne({ 
+      courseId: courseId,
+      type: studyType 
+    });
 
-    return NextResponse.json(result[0] ?? []);
+    return NextResponse.json(result ?? []);
   }
 }

@@ -1,3 +1,4 @@
-import { drizzle } from "drizzle-orm/neon-http";
+import connectDB from './mongodb.js';
 
-export const db = drizzle(process.env.NEXT_PUBLIC_DATABASE_CONNECTION_STRING);
+// Initialize MongoDB connection
+export const db = connectDB;

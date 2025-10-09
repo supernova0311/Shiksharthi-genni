@@ -45,7 +45,7 @@ The AI Study Material Generator combines AI capabilities with scalable SaaS arch
 
 - **Frontend**: React, Next.js, Tailwind CSS
 - **Backend**: Serverless API routes with Next.js
-- **Database**: Neon (PostgreSQL-based serverless database)
+- **Database**: MongoDB (NoSQL document database)
 - **AI Integration**: Gemini AI
 - **Authentication**: Clerk
 - **Payments**: Stripe
@@ -63,7 +63,7 @@ Before starting, ensure you have the following installed:
 - npm or Yarn
 - Stripe account
 - Clerk account
-- Neon database instance
+- MongoDB Atlas instance
 - Inngest account
 - OpenAI (or Gemini AI) API key
 

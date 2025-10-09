@@ -10,21 +10,31 @@ function MaterialCardItem({ item, studyTypeContent, course, refreshData }) {
   const [loading, setLoading] = useState(false);
   const GenerateContent = async () => {
     setLoading(true);
-    let chapters = "";
-    course?.courseLayout?.chapters.forEach((chapter) => {
-      chapters = chapter?.chapterTitle + "," + chapters;
-    });
+    try {
+      let chapters = "";
+      course?.courseLayout?.chapters.forEach((chapter) => {
+        chapters = chapter?.chapterTitle + "," + chapters;
+      });
 
-    const result = await axios.post("/api/study-type-content", {
-      courseId: course?.courseId,
-      type: item.name,
-      chapters: chapters,
-    });
-    setLoading(false);
-    console.log(result);
-
-    refreshData(true);
-    toast("Content generated successfully");
+      const result = await axios.post("/api/study-type-content", {
+        courseId: course?.courseId,
+        type: item.name,
+        chapters: chapters,
+      });
+      
+      console.log(result);
+      refreshData(true);
+      toast.success("Content generated successfully!");
+    } catch (error) {
+      console.error("Error generating content:", error);
+      if (error.response?.status === 503) {
+        toast.error("AI service is temporarily overloaded. Please try again in a few minutes.");
+      } else {
+        toast.error("Failed to generate content. Please try again.");
+      }
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
