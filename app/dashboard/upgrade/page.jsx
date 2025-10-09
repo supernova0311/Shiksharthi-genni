@@ -3,8 +3,6 @@ import React, { useEffect, useState } from "react";
 import { Check } from "lucide-react";
 import axios from "axios";
 import { db } from "@/configs/db";
-import { USER_TABLE } from "@/configs/schema";
-import { eq } from "drizzle-orm";
 import { useUser } from "@clerk/nextjs";
 
 export default function PricingPlans() {
